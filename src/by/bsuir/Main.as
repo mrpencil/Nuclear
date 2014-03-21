@@ -26,6 +26,7 @@ package by.bsuir
 			btn1.y = 100;
 			addChild(btn1);
 			
+// Igor lock
 			var btn2:SimpleButton = new SquareButton();
 			btn2.x = 150;
 			btn2.y = 100;
