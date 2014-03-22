@@ -1,15 +1,17 @@
 package by.bsuir.entity 
 {
+	import by.bsuir.helper.PropertiesHelper;
 	/**
 	 * ...
 	 * @author ...
 	 */
-	public class Electron implements orpuscule 
+	public class Electron extends Corpuscule 
 	{
 		
-		public function Electron() 
-		{
-			
+		public function Electron() {
+			super();
+			this.setWeight(PropertiesHelper.ELECTRON_WEIGHT);
+			this.setCharge(PropertiesHelper.ELECTRON_CHARGE);
 		}
 		
 	}

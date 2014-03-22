@@ -1,15 +1,17 @@
 package by.bsuir.entity 
 {
+	import by.bsuir.helper.PropertiesHelper;
 	/**
 	 * ...
 	 * @author ...
 	 */
-	public class Proton implements Corpuscule 
+	public class Proton extends Corpuscule 
 	{
 		
-		public function Proton() 
-		{
-			weight = 0.9986;  
+		public function Proton() {
+			super();
+			this.setWeight(PropertiesHelper.PROTON_WEIGHT);
+			this.setCharge(PropertiesHelper.PROTON_CHARGE);
 		}
 		
 	}

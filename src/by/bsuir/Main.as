@@ -1,5 +1,6 @@
 package by.bsuir
 {
+	import by.bsuir.entity.Agregate.Atom;
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
 	import flash.text.TextField;
@@ -15,6 +16,8 @@ package by.bsuir
 			
 		public function Main():void 
 		{
+			var atom:Atom = new Atom(1,2);
+			
 			var tf:TextField = new TextField();
 			tf.x = 50;
 			tf.y = 20;
