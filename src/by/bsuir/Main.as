@@ -5,6 +5,7 @@ package by.bsuir
 	import flash.display.Sprite;
 	import flash.text.TextField;
 	import flash.events.MouseEvent;
+	import by.bsuir.helper.AtomsCreator;
 		
 	/**
 	 * ...
@@ -16,7 +17,8 @@ package by.bsuir
 			
 		public function Main():void 
 		{
-			var atom:Atom = new Atom(1,2);
+			var atom:Atom = AtomsCreator.createElement(AtomsCreator.Sr_90);
+			trace(atom.getTitle());
 			
 			var tf:TextField = new TextField();
 			tf.x = 50;
