@@ -10,6 +10,7 @@ package by.bsuir.entity
 		
 		public function Proton() {
 			super();
+			identifier = PROTON_IDENTIFIER;
 			this.setWeight(PropertiesHelper.PROTON_WEIGHT);
 			this.setCharge(PropertiesHelper.PROTON_CHARGE);
 		}

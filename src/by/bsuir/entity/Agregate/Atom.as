@@ -5,6 +5,7 @@ package by.bsuir.entity.Agregate
 	import by.bsuir.entity.Neitrino;
 	import by.bsuir.entity.Proton;
 	import by.bsuir.helper.ColorHelper;
+	import by.bsuir.helper.PropertiesHelper;
 	/**
 	 * ...
 	 * @author ...
@@ -25,7 +26,10 @@ package by.bsuir.entity.Agregate
 		
 		private var bound_energy:Number;
 		
-		public function Atom(numElectron:int=0, numProtons:int=0, numNeitrons:int=0, title:String="-", energy:uint=0, color:uint=0) {
+		public function Atom(numElectron:int = 0, numProtons:int = 0, numNeitrons:int = 0, title:String = "-", energy:uint = 0, color:uint = 0) {
+			identifier = ATOM_IDENTIFIER;
+			this.weight = numProtons * PROTON.getWeight() + numNeitrons * NEITRINO.getWeight() + numElectron * ELECTRON.getWeight();
+			this.charge = numProtons - numElectron;
 			this.neitrons_number = numNeitrons;
 			this.electrons_number = numElectron;
 			this.protonts_number = numProtons;
