@@ -10,6 +10,7 @@ package by.bsuir.entity
 		
 		public function Neitrino() {
 			super();
+			this.identifier = NEITRON_IDENTIFIER;
 			this.setWeight(PropertiesHelper.NEITRON_WEIGHT);
 			this.setCharge(PropertiesHelper.NEITRON_CHARGE);
 		}

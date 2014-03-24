@@ -6,9 +6,17 @@ package by.bsuir.entity
 	 * @author ...
 	 */
 	public class Corpuscule 
-	{			
-		private var weight:Number;
-		private var charge:int;
+	{	
+		public static var ELECTRON_IDENTIFIER:int = 0;
+		public static var NEITRON_IDENTIFIER:int = 1;
+		public static var PROTON_IDENTIFIER:int = 2;
+		public static var ATOM_IDENTIFIER:int = 3;
+		
+		
+		protected var identifier:int;
+		
+		protected var weight:Number;
+		protected var charge:int;
 		
 		public function Corpuscule(someWeight:Number = 0, someCharge:int = 0) {
 			this.weight = someWeight;
@@ -17,6 +25,7 @@ package by.bsuir.entity
 		
 		public function getWeight ():Number { return weight; }
 		public function getCharge ():int { return charge; }
+		public function getIdentifier():int { return identifier; }
 		
 		public function setWeight (value:Number):void 
 		{

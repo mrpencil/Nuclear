@@ -1,5 +1,6 @@
 package by.bsuir
 {
+	import by.bsuir.animation.entity.AnimateCorpuscule;
 	import by.bsuir.entity.Agregate.Atom;
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
@@ -21,6 +22,8 @@ package by.bsuir
 			var atom:Atom = AtomsCreator.createElement(AtomsCreator.Sr_90);
 			var corp:Corpuscule = new Corpuscule();
 			trace(atom.getTitle());
+			
+			var anim:AnimateCorpuscule = new AnimateCorpuscule(AtomsCreator.createElement(AtomsCreator.Cs_144));
 	
 			
 			var tf:TextField = new TextField();

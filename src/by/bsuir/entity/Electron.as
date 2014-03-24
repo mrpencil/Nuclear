@@ -10,6 +10,7 @@ package by.bsuir.entity
 		
 		public function Electron() {
 			super();
+			this.identifier = ELECTRON_IDENTIFIER;
 			this.setWeight(PropertiesHelper.ELECTRON_WEIGHT);
 			this.setCharge(PropertiesHelper.ELECTRON_CHARGE);
 		}
