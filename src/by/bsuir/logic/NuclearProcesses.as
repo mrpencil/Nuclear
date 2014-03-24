@@ -7,7 +7,7 @@ package by.bsuir.logic
 	 */
 	public class NuclearProcesses 
 	{
-		public static var SLOW_NEITRON_VELOCITY = 2;
+		public static var SLOW_NEITRON_VELOCITY = 30;
 		public static var FAST_NEITRON_VELOCITY = 10000;
 		
 		public function NuclearProcesses() 
@@ -19,6 +19,7 @@ package by.bsuir.logic
 			 var currentNeitrons:int = currentProtons;
 			 atom.setNeitronsNumber(currentProtons);
 			 atom.setNeitronsNumber(currentNeitrons);
+			 return atom;
 		 }
 		
 	}
