@@ -2,92 +2,44 @@ package by.bsuir
 {
 	import by.bsuir.animation.entity.AnimateCorpuscule;
 	import by.bsuir.entity.Agregate.Atom;
+	import by.bsuir.animation.Scene;
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
 	import flash.text.TextField;
-	import flash.events.MouseEvent;
+	import flash.events.*;
 	import by.bsuir.helper.AtomsCreator;
 	import by.bsuir.entity.Corpuscule;
-		
+	
 	/**
 	 * ...
 	 * @author igor
 	 */
-		 
-	public class Main extends Sprite 
-	{
-			
-		public function Main():void 
-		{
-			var atom:Atom = AtomsCreator.createElement(AtomsCreator.Sr_90);
-			var corp:Corpuscule = new Corpuscule();
-			trace(atom.getTitle());
-			
-			var anim:AnimateCorpuscule = new AnimateCorpuscule(AtomsCreator.createElement(AtomsCreator.Cs_144));
 	
+	public class Main extends Sprite
+	{
+		private var scene:Scene;
+		
+		public function Main():void
+		{
+			if (stage)
+				init();
+			else
+				addEventListener(Event.ADDED_TO_STAGE, init);
+		}
+		
+		private function init(e:Event = null):void
+		{
+			removeEventListener(Event.ADDED_TO_STAGE, init);
+			scene = new Scene(stage.stageWidth, stage.stageHeight);
 			
-			var tf:TextField = new TextField();
-			tf.x = 50;
-			tf.y = 20;
-			tf.text = "Step 0";
-			addChild(tf);
-			
-			var btn1:SimpleButton = new SquareButton();
-			btn1.x = 50;
-			btn1.y = 100;
-			addChild(btn1);
-			
-// Igor lock
-			var btn2:SimpleButton = new SquareButton();
-			btn2.x = 150;
-			btn2.y = 100;
-			addChild(btn2);
-			
-			var message1:String = "Step 1";
-			var message2:String = "Step 2";
-			
-			btn1.addEventListener(MouseEvent.CLICK, function():void {
-				tf.text = "Step 1";
-				btn1.removeEventListener(MouseEvent.CLICK, arguments.callee);
-				btn2.addEventListener(MouseEvent.CLICK, function():void {
-					tf.text = "Step 2";
-					btn2.removeEventListener(MouseEvent.CLICK, arguments.callee);
-				});
-			});
+			addChild(scene.bitMap);
+			addEventListener(Event.ENTER_FRAME, Run);
+		}
+		
+		public function Run(e:Event):void
+		{
+			scene.Update();
+			scene.Render();
 		}
 	}
-}
-import flash.display.SimpleButton;
-
-internal class SquareButton extends SimpleButton {
-    private var upColor:uint   = 0xFFCC00;
-    private var overColor:uint = 0xCCFF00;
-    private var downColor:uint = 0x00CCFF;
-    private var size:uint      = 80;
-
-    public function SquareButton() {
-        downState      = new ButtonDisplayState(downColor, size);
-        overState      = new ButtonDisplayState(overColor, size);
-        upState        = new ButtonDisplayState(upColor, size);
-        hitTestState   = new ButtonDisplayState(upColor, size);        
-        useHandCursor  = true;
-    }
-}
-
-internal class ButtonDisplayState extends flash.display.Shape {
-    private var bgColor:uint;
-    private var size:uint;
-
-    public function ButtonDisplayState(bgColor:uint, size:uint) {
-        this.bgColor = bgColor;
-        this.size    = size;
-        draw();
-    }
-
-    private function draw():void {
-        graphics.beginFill(bgColor);
-        graphics.drawRect(0, 0, size, size);
-        graphics.endFill();
-    }
-	
 }

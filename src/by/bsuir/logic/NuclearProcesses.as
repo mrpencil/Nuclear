@@ -7,8 +7,8 @@ package by.bsuir.logic
 	 */
 	public class NuclearProcesses 
 	{
-		private static var SLOW_NEITRON_VELOCITY = 2;
-		private static var FAST_NEITRON_VELOCITY = 10000;
+		public static var SLOW_NEITRON_VELOCITY = 2;
+		public static var FAST_NEITRON_VELOCITY = 10000;
 		
 		public function NuclearProcesses() 
 		{
