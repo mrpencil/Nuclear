@@ -34,23 +34,6 @@ package by.bsuir.entity.Agregate
 			this.element_color = color;
 		}
 		
-		// weight of electrons not exists threre, be cause it not nesessary
-	/*	override public function getWeight():Number
-		{
-			var weight:Number = 0;
-			if (array_protons != null && array_protons.length != 0) {
-				for each(var value:Proton in array_protons) {
-					weight += value.getWeight();
-				}
-			}
-			if (array_neitrons != null && array_neitrons.length != 0) {
-				for each(var neitron:Neitrino in array_neitrons) {
-					weight += neitron.getWeight();
-				}
-			}
-			return weight;
-		}  */
-		
 		public function getNeitronsNumber ():int { return neitrons_number; }
 		public function getProtonsNumber():int { return protonts_number; }
 		public function getElectronsNumber():int { return electrons_number; }

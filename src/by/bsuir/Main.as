@@ -6,6 +6,7 @@ package by.bsuir
 	import flash.text.TextField;
 	import flash.events.MouseEvent;
 	import by.bsuir.helper.AtomsCreator;
+	import by.bsuir.entity.Corpuscule;
 		
 	/**
 	 * ...
@@ -18,7 +19,9 @@ package by.bsuir
 		public function Main():void 
 		{
 			var atom:Atom = AtomsCreator.createElement(AtomsCreator.Sr_90);
+			var corp:Corpuscule = new Corpuscule();
 			trace(atom.getTitle());
+	
 			
 			var tf:TextField = new TextField();
 			tf.x = 50;
