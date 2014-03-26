@@ -5,6 +5,7 @@ package by.bsuir.animation.entity
 	import by.bsuir.entity.Agregate.Atom;
 	import by.bsuir.logic.NuclearProcesses;
 	import by.bsuir.animation.Scene;
+	import by.bsuir.entity.Agregate.Atom;
 	
 	import flash.geom.Point;
 	import flash.geom.Matrix;
@@ -20,7 +21,7 @@ package by.bsuir.animation.entity
 	public class AnimateCorpuscule
 	{
 		private var corpuscule:Corpuscule;
-		private var radius:int = 30;
+		private var radius:int;
 		private var angle:Number;
 		public var velocity:Point;
 		public var x:int;
@@ -29,26 +30,15 @@ package by.bsuir.animation.entity
 		protected var image_sprite:Sprite;
 		private var directions:Array = [Math.PI / 4, 3 * Math.PI / 4, 5 * Math.PI / 4];
 		
-		public function AnimateCorpuscule(corpuscule:Corpuscule = null, angle:Number = 0, x:int = 0, y:int = 0)
+		public function AnimateCorpuscule(corpuscule:Corpuscule = null, angle:Number = 0, x:int = 0, y:int = 0, radius:int = 0)
 		{
 			this.corpuscule = corpuscule;
 			this.angle = angle;
 			this.x = x;
 			this.y = y;
+			this.radius = radius;
 			image_sprite = new Sprite();
 			image_sprite.graphics.lineStyle(1, 0xFFFFFF);
-			if (corpuscule is Atom)
-			{
-				image_sprite.graphics.drawCircle(30, 30, 30);
-				radius = 30;
-				velocity = new Point(-NuclearProcesses.SLOW_NEITRON_VELOCITY * Math.cos(angle), -NuclearProcesses.SLOW_NEITRON_VELOCITY * Math.sin(angle));
-			}
-			else
-			{
-				image_sprite.graphics.drawCircle(5, 5, 5);
-				radius = 10;
-				velocity = new Point(-NuclearProcesses.SLOW_NEITRON_VELOCITY * Math.cos(angle), -NuclearProcesses.SLOW_NEITRON_VELOCITY * Math.sin(angle));
-			}
 		}
 		
 		public function Render():void
@@ -67,12 +57,43 @@ package by.bsuir.animation.entity
 			if (x + radius <= 0)
 				x = Scene.renderer.width - radius;
 			else if (x >= Scene.renderer.width)
-				x = 0;
+				velocity.x = -velocity.x;
 			
 			if (y + radius <= 0)
 				y = Scene.renderer.height - radius;
 			else if (y >= Scene.renderer.height)
-				y = 0;
+				velocity.y = -velocity.y;
+		}
+		
+		public function CheckIfInNonRotatedRect(animateCorpuscule:AnimateCorpuscule):Boolean
+		{
+			
+			var intersecting:Boolean = false;
+			
+			var obj2:Atom = Atom(animateCorpuscule.getCorpuscule());
+			if (obj2.getTitle() == "Уран 235/92")
+			{
+				
+				if (x >= animateCorpuscule.x && x <= animateCorpuscule.x + animateCorpuscule.radius)
+					if (y >= animateCorpuscule.y && y <= animateCorpuscule.y + animateCorpuscule.radius)
+						return true;
+				
+				//now we'll check the top right point
+				if (x + radius >= animateCorpuscule.x && x + radius <= animateCorpuscule.x + animateCorpuscule.radius)
+					if (y >= animateCorpuscule.y && y <= animateCorpuscule.y + animateCorpuscule.radius)
+						return true;
+				
+				//now we check the bottom right point
+				if (x + radius >= animateCorpuscule.x && x + radius <= animateCorpuscule.x + animateCorpuscule.radius)
+					if (y + radius >= animateCorpuscule.y && y + radius <= animateCorpuscule.y + animateCorpuscule.radius)
+						return true;
+				
+				//And check the bottom left point
+				if (x >= animateCorpuscule.x && x <= animateCorpuscule.x + animateCorpuscule.radius)
+					if (y + radius >= animateCorpuscule.y && y + radius <= animateCorpuscule.y + animateCorpuscule.radius)
+						return true;
+			}
+			return intersecting;
 		}
 		
 		public function getCorpuscule():Corpuscule
