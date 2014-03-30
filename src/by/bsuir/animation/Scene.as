@@ -1,5 +1,7 @@
 package by.bsuir.animation
 {
+	import by.bsuir.animation.container.AnimateAtomContainer;
+	import by.bsuir.animation.container.AnimateNeitrinoContainer;
 	import by.bsuir.animation.entity.AnimateAtom;
 	import by.bsuir.animation.entity.AnimateCorpuscule;
 	import by.bsuir.animation.entity.AnimateNeitrino;
@@ -10,6 +12,7 @@ package by.bsuir.animation
 	import flash.accessibility.Accessibility;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.DisplayObjectContainer;
 	import flash.geom.Rectangle;
 	import flash.display.Sprite;
 	import flash.events.KeyboardEvent;
@@ -23,24 +26,35 @@ package by.bsuir.animation
 	{
 		public var bitMap:Bitmap;
 		public static var renderer:BitmapData;
+		private var physics:Physics;
 		
 		public static var currentTime:Number;
 		
 		private var atoms:Array;
 		private var neitrinos:Array;
 		private var trashAtoms:Array;
+		private var animAC:AnimateAtomContainer;
+		private var animNC:AnimateNeitrinoContainer;
 		
-		public function Scene(stageWidth:int, stageHeight:int)
+		
+		
+		public function Scene(canvas:DisplayObjectContainer)
 		{
 			trace("Scene created");
 			currentTime = getTimer();
-			renderer = new BitmapData(stageWidth, stageHeight, false, 0x000000);
+			renderer = new BitmapData(800, 600, false, 0x000000);
 			bitMap = new Bitmap(renderer);
+			canvas.addChild(bitMap);
+			physics = new Physics(canvas);
+			physics.createCorpuscules();
+			physics.enable();
 			
-			atoms = new Array();
-			neitrinos = new Array();
-			trashAtoms = new Array();
-			for (var i:int = 0; i < 10; i++)
+			//atoms = new Array();
+			//neitrinos = new Array();
+			//trashAtoms = new Array();
+			//animAC = new AnimateAtomContainer();
+			//animNC = new AnimateNeitrinoContainer();
+			/*for (var i:int = 0; i < 10; i++)
 				neitrinos.push(
 					new AnimateNeitrino(
 						null,
@@ -56,12 +70,13 @@ package by.bsuir.animation
 						Math.random() * 10, 
 						Math.random() * 30,
 						50)
-					);
+					);*/
 		}
+		
 		
 		public function Render():void
 		{
-			renderer.lock();
+			/*renderer.lock();
 			renderer.fillRect(new Rectangle(0, 0, renderer.width, renderer.height), 0x000000);
 			for (var i:int = 0; i < neitrinos.length; i++)
 				neitrinos[i].Render();
@@ -69,12 +84,13 @@ package by.bsuir.animation
 				atoms[i].Render();
 			for (i = 0; i < trashAtoms.length; i++)
 				trashAtoms[i].Render();
-			renderer.unlock();
+			renderer.unlock();*/
+			//AnimateAtom(animAC.getChildAt(0)).Render();
 		}
 		
 		public function Update():void
 		{
-			currentTime = getTimer();
+			/*currentTime = getTimer();
 			
 			for (var i:int = 0; i < neitrinos.length; i++)
 			{
@@ -97,7 +113,8 @@ package by.bsuir.animation
 			}
 			for (i = 0; i < trashAtoms.length; i++) {
 				trashAtoms[i].Update();
-			}
+			}*/
+			//AnimateAtom(animAC.getChildAt(0)).Update();
 		}
 		
 		public function Reaction(atomReaction:int):void
@@ -127,8 +144,8 @@ package by.bsuir.animation
 						2)
 				);
 			atoms.splice(atomReaction, 1);
-			for (i = 0; i < atoms.length; i++)
-				trace(atoms[i]);
+			/*for (i = 0; i < atoms.length; i++)
+				trace(atoms[i]);*/
 		}
 	}
 

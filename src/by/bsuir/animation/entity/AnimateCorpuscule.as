@@ -6,6 +6,7 @@ package by.bsuir.animation.entity
 	import by.bsuir.logic.NuclearProcesses;
 	import by.bsuir.animation.Scene;
 	import by.bsuir.entity.Agregate.Atom;
+	import flash.display.MovieClip;
 	
 	import flash.geom.Point;
 	import flash.geom.Matrix;
@@ -18,13 +19,16 @@ package by.bsuir.animation.entity
 	 * ...
 	 * @author ...
 	 */
-	public class AnimateCorpuscule
+	public class AnimateCorpuscule extends MovieClip
 	{
 		private var corpuscule:Corpuscule;
-		private var radius:int;
+		public var radius:Number;
+		private var radians:Number;
 		private var angle:Number;
+		private var speed:Number;
+		public var mass:Number;
 		public var velocity:Point;
-		public var x:int;
+		private var x:int;
 		private var y:int;
 		protected var image:BitmapData;
 		protected var image_sprite:Sprite;
@@ -37,8 +41,17 @@ package by.bsuir.animation.entity
 			this.x = x;
 			this.y = y;
 			this.radius = radius;
-			image_sprite = new Sprite();
-			image_sprite.graphics.lineStyle(1, 0xFFFFFF);
+			this.radians = 3 * Math.PI / 180;
+			this.speed = 2;
+			this.mass = this.radius;
+			this.velocity = new Point(Math.cos(this.radians) * this.speed, Math.sin(this.radians) * this.speed);
+			//image_sprite = new Sprite();
+			//image_sprite.graphics.lineStyle(1, 0xFFFFFF);
+			
+			this.graphics.lineStyle(1);
+			this.graphics.beginFill(0xCCCCCC);
+			this.graphics.drawCircle(0, 0, radius);
+			this.graphics.endFill();
 		}
 		
 		public function Render():void

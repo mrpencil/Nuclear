@@ -3,6 +3,7 @@ package by.bsuir
 	import by.bsuir.animation.entity.AnimateCorpuscule;
 	import by.bsuir.entity.Agregate.Atom;
 	import by.bsuir.animation.Scene;
+	import flash.display.MovieClip;
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
 	import flash.text.TextField;
@@ -15,7 +16,7 @@ package by.bsuir
 	 * @author igor
 	 */
 	
-	public class Main extends Sprite
+	public class Main extends MovieClip
 	{
 		private var scene:Scene;
 		
@@ -29,10 +30,7 @@ package by.bsuir
 		
 		private function init(e:Event = null):void
 		{
-			removeEventListener(Event.ADDED_TO_STAGE, init);
-			scene = new Scene(stage.stageWidth, stage.stageHeight);
-			
-			addChild(scene.bitMap);
+			scene = new Scene(this);
 			addEventListener(Event.ENTER_FRAME, Run);
 		}
 		
