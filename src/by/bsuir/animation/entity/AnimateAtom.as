@@ -21,8 +21,6 @@ package by.bsuir.animation.entity
 		public function AnimateAtom(corpuscule:Corpuscule = null, angle:Number = 0, x:int = 0, y:int = 0, radius:int = 0) 
 		{
 			super(AtomsCreator.createElement(AtomsCreator.U_235),angle, x, y,radius);
-			//super.image_sprite.graphics.drawCircle(radius, radius, radius);
-			//this.graphics.drawCircle(radius, radius, radius);
 			super.velocity = new Point(
 				-NuclearProcesses.SLOW_NEITRON_VELOCITY * Math.cos(angle),
 				-NuclearProcesses.SLOW_NEITRON_VELOCITY * Math.sin(angle)

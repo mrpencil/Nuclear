@@ -1,7 +1,5 @@
 package by.bsuir.animation
 {
-	import by.bsuir.animation.container.AnimateAtomContainer;
-	import by.bsuir.animation.container.AnimateNeitrinoContainer;
 	import by.bsuir.animation.entity.AnimateAtom;
 	import by.bsuir.animation.entity.AnimateCorpuscule;
 	import by.bsuir.animation.entity.AnimateNeitrino;
@@ -33,10 +31,8 @@ package by.bsuir.animation
 		private var atoms:Array;
 		private var neitrinos:Array;
 		private var trashAtoms:Array;
-		private var animAC:AnimateAtomContainer;
-		private var animNC:AnimateNeitrinoContainer;
-		
-		
+
+
 		
 		public function Scene(canvas:DisplayObjectContainer)
 		{

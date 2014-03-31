@@ -41,13 +41,10 @@ package by.bsuir.animation.entity
 			this.x = x;
 			this.y = y;
 			this.radius = radius;
-			this.radians = 3 * Math.PI / 180;
-			this.speed = 2;
+			this.radians = 1 * Math.PI / 180;
+			this.speed = 1;
 			this.mass = this.radius;
-			this.velocity = new Point(Math.cos(this.radians) * this.speed, Math.sin(this.radians) * this.speed);
-			//image_sprite = new Sprite();
-			//image_sprite.graphics.lineStyle(1, 0xFFFFFF);
-			
+			this.velocity = new Point(Math.cos(this.radians) * this.speed, Math.sin(this.radians) * this.speed);		
 			this.graphics.lineStyle(1);
 			this.graphics.beginFill(0xCCCCCC);
 			this.graphics.drawCircle(0, 0, radius);

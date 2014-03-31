@@ -31,13 +31,7 @@ package by.bsuir
 		private function init(e:Event = null):void
 		{
 			scene = new Scene(this);
-			addEventListener(Event.ENTER_FRAME, Run);
 		}
 		
-		public function Run(e:Event):void
-		{
-			scene.Update();
-			scene.Render();
-		}
 	}
 }
