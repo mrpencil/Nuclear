@@ -28,8 +28,6 @@ package by.bsuir.animation.entity
 		private var speed:Number;
 		public var mass:Number;
 		public var velocity:Point;
-		private var x:int;
-		private var y:int;
 		protected var image:BitmapData;
 		protected var image_sprite:Sprite;
 		private var directions:Array = [Math.PI / 4, 3 * Math.PI / 4, 5 * Math.PI / 4];
