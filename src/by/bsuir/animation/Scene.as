@@ -44,73 +44,6 @@ package by.bsuir.animation
 			physics = new Physics(canvas);
 			physics.createCorpuscules();
 			physics.enable();
-			
-			//atoms = new Array();
-			//neitrinos = new Array();
-			//trashAtoms = new Array();
-			//animAC = new AnimateAtomContainer();
-			//animNC = new AnimateNeitrinoContainer();
-			/*for (var i:int = 0; i < 10; i++)
-				neitrinos.push(
-					new AnimateNeitrino(
-						null,
-						Math.random() * 10, 
-						Math.random() * 20, Math.random() * 50,
-						2)
-					);
-			for (i = 0; i < 10; i++)
-				atoms.push(
-					new AnimateAtom(	
-						AtomsCreator.createElement(AtomsCreator.U_235), 
-						Math.random() * 10, 
-						Math.random() * 10, 
-						Math.random() * 30,
-						50)
-					);*/
-		}
-		
-		
-		public function Render():void
-		{
-			/*renderer.lock();
-			renderer.fillRect(new Rectangle(0, 0, renderer.width, renderer.height), 0x000000);
-			for (var i:int = 0; i < neitrinos.length; i++)
-				neitrinos[i].Render();
-			for (i = 0; i < atoms.length; i++)
-				atoms[i].Render();
-			for (i = 0; i < trashAtoms.length; i++)
-				trashAtoms[i].Render();
-			renderer.unlock();*/
-			//AnimateAtom(animAC.getChildAt(0)).Render();
-		}
-		
-		public function Update():void
-		{
-			/*currentTime = getTimer();
-			
-			for (var i:int = 0; i < neitrinos.length; i++)
-			{
-				neitrinos[i].Update();
-				var atomReaction:int = -1;
-				for (var j:int; j < atoms.length; j++)
-				{
-					if (neitrinos[i].CheckIfInNonRotatedRect(atoms[j]))
-					{
-						atomReaction = j;
-					}
-				}
-				if (atomReaction != -1)
-				{
-					Reaction(atomReaction);
-				}
-			}
-			for (i = 0; i < atoms.length; i++){
-				atoms[i].Update();
-			}
-			for (i = 0; i < trashAtoms.length; i++) {
-				trashAtoms[i].Update();
-			}*/
-			//AnimateAtom(animAC.getChildAt(0)).Update();
 		}
 		
 		public function Reaction(atomReaction:int):void
@@ -140,8 +73,7 @@ package by.bsuir.animation
 						2)
 				);
 			atoms.splice(atomReaction, 1);
-			/*for (i = 0; i < atoms.length; i++)
-				trace(atoms[i]);*/
+			
 		}
 	}
 

@@ -22,6 +22,8 @@ package by.bsuir.animation
 		private var maxY:Number;
 		private var minY:Number;
 		private var corpusculesArray:Array = [];
+		private var atomsArray:Array = [];
+		private var neitrinosArray:Array = [];
 		
 		public function Physics(_canvas:DisplayObjectContainer)
 		{
@@ -54,17 +56,17 @@ package by.bsuir.animation
 		public function createAtom(type:String):void
 		{
 			var atom:AnimateAtom;
-			atom = new AnimateAtom(AtomsCreator.createElement(type), Math.random() * 10, Math.random() * 10, Math.random() * 30, 20);
+			atom = new AnimateAtom(AtomsCreator.createElement(type), Math.random() * 10, Math.random() * 10, Math.random() * 30, 15);
 			canvas.addChild(atom);
-			corpusculesArray.push((atom as AnimateCorpuscule));
+			atomsArray.push(atom as AnimateCorpuscule);
 		}
 		
 		public function createNeitrino():void
 		{
 			var neitrino:AnimateNeitrino;
-			neitrino = new AnimateNeitrino(new Neitrino(), Math.random() * 10, Math.random() * 20, Math.random() * 50, 3);
+			neitrino = new AnimateNeitrino(new Neitrino(), Math.random() * 10, Math.random() * 20, Math.random() * 50, 4);
 			canvas.addChild(neitrino);
-			corpusculesArray.push((neitrino as AnimateCorpuscule));
+			neitrinosArray.push(neitrino as AnimateCorpuscule);
 		}
 		
 		private function onEnterFrame(e:Event):void
@@ -76,98 +78,98 @@ package by.bsuir.animation
 		{
 			// define common vars
 			var tempAtom:AnimateCorpuscule;
+			var tempAtom1:AnimateCorpuscule;
 			var i:int;
-			var tempNeitrino:AnimateCorpuscule;
 			var k:int;
 			
-			// loop thru balls array
-			for (i = 0; i < corpusculesArray.length; i++)
+			checkCorpusculeCollisions(atomsArray, neitrinosArray);
+			checkCorpusculeCollisions(atomsArray, atomsArray);
+			checkCorpusculeCollisions(neitrinosArray, neitrinosArray);
+		}
+		
+		private function checkCorpusculeCollisions(array1:Array, array2:Array):void
+		{
+			var i:int;
+			var k:int;
+			var tempCorpuscule1:AnimateCorpuscule;
+			var tempCorpuscule2:AnimateCorpuscule;
+			
+			for (i = 0; i < array1.length; i++)
 			{
 				// save a reference to ball
-				tempAtom = corpusculesArray[i] as AnimateCorpuscule;
+				tempCorpuscule1 = array1[i] as AnimateCorpuscule;
 				
 				// check for collision with other balls
-				for (k = 0; k < corpusculesArray.length; k++)
+				for (k = 0; k < array2.length; k++)
 				{
 					// save a reference to ball 2
-					tempNeitrino = corpusculesArray[k] as AnimateCorpuscule;
-					
-					// make sure we dont test for collision against itself
-					if (tempAtom == tempNeitrino)	continue;
+					tempCorpuscule2 = array2[k] as AnimateCorpuscule;
 					
 					// check if balls are colliding by checking the distance between them
-					if (hitTestCircle(tempAtom, tempNeitrino))
+					if (hitTestCircle(tempCorpuscule1, tempCorpuscule2))
 					{
 						// calculate collision reaction
-						collideCorpuscules(tempAtom, tempNeitrino);
+						collideCorpuscules(tempCorpuscule1, tempCorpuscule2);
 						
 						// if balls are still touching after collision reaction,
 						// try to move them apart
-						if (hitTestCircle(tempAtom, tempNeitrino))
+						if (hitTestCircle(tempCorpuscule1, tempCorpuscule2))
 						{
-							tempAtom.x += tempAtom.velocity.x;
-							tempAtom.y += tempAtom.velocity.y;
-							tempNeitrino.x -= tempAtom.velocity.x
-							tempNeitrino.y -= tempAtom.velocity.y
+							tempCorpuscule1.x += tempCorpuscule1.velocity.x;
+							tempCorpuscule1.y += tempCorpuscule1.velocity.y;
+							tempCorpuscule2.x -= tempCorpuscule1.velocity.x
+							tempCorpuscule2.y -= tempCorpuscule1.velocity.y
 						}
 					}
 				}
 				
 				// Bounce off walls
 				// Check if we hit top
-				if (((tempAtom.x - tempAtom.radius) < minX) && (tempAtom.velocity.x < 0))
+				if (((tempCorpuscule1.x - tempCorpuscule1.radius) < minX) && (tempCorpuscule1.velocity.x < 0))
 				{
 					// reverse velocity
-					tempAtom.velocity.x = -tempAtom.velocity.x;
+					tempCorpuscule1.velocity.x = -tempCorpuscule1.velocity.x;
 				}
 				// Check if we hit bottom
-				else if ((tempAtom.x + tempAtom.radius) > maxX && (tempAtom.velocity.x > 0))
+				else if ((tempCorpuscule1.x + tempCorpuscule1.radius) > maxX && (tempCorpuscule1.velocity.x > 0))
 				{
 					// reverse velocity
-					tempAtom.velocity.x = -tempAtom.velocity.x;
+					tempCorpuscule1.velocity.x = -tempCorpuscule1.velocity.x;
 				}
 				// Check if we hit left side
-				if (((tempAtom.y - tempAtom.radius) < minY) && (tempAtom.velocity.y < 0))
+				if (((tempCorpuscule1.y - tempCorpuscule1.radius) < minY) && (tempCorpuscule1.velocity.y < 0))
 				{
 					// reverse velocity
-					tempAtom.velocity.y = -tempAtom.velocity.y;
+					tempCorpuscule1.velocity.y = -tempCorpuscule1.velocity.y;
 				}
 				// Check if we hit right side
-				else if (((tempAtom.y + tempAtom.radius) > maxY) && (tempAtom.velocity.y > 0))
+				else if (((tempCorpuscule1.y + tempCorpuscule1.radius) > maxY) && (tempCorpuscule1.velocity.y > 0))
 				{
 					// reverse velocity
-					tempAtom.velocity.y = -tempAtom.velocity.y;
+					tempCorpuscule1.velocity.y = -tempCorpuscule1.velocity.y;
 				}
 				
-				
-				// apply friction to ball velocity
-				//tempAtom.velocityX *= _friction;
-				//tempAtom.velocityY *= _friction;
-				
-				// update position based on velocity
-				tempAtom.x += tempAtom.velocity.x;
-				tempAtom.y += tempAtom.velocity.y;
 			}
 		}
 		
-		private function collideCorpuscules(atom:AnimateCorpuscule, neitrino:AnimateCorpuscule):void
+		private function collideCorpuscules(corpuscule1:AnimateCorpuscule, corpuscule2:AnimateCorpuscule):void
 		{
 			// calculate the distance between center of balls with the Pytagorean theorem
-			var dx:Number = atom.x - neitrino.x;
-			var dy:Number = atom.y - neitrino.y;
+			var dx:Number = corpuscule1.x - corpuscule2.x;
+			var dy:Number = corpuscule1.y - corpuscule2.y;
 			
 			// calculate the angle of the collision in radians
 			var collisionAngle:Number = Math.atan2(dy, dx);
 			
 			// calculate the velocity vector for each ball
 			// using existing ball X & Y velocities
-			var speed1:Number = Math.sqrt(atom.velocity.x * atom.velocity.x + atom.velocity.y * atom.velocity.y)
-			var speed2:Number = Math.sqrt(neitrino.velocity.x * neitrino.velocity.x + neitrino.velocity.y * neitrino.velocity.y)
+			var speed1:Number = Math.sqrt(corpuscule1.velocity.x * corpuscule1.velocity.x + corpuscule1.velocity.y * corpuscule1.velocity.y)
+			var speed2:Number = Math.sqrt(corpuscule2.velocity.x * corpuscule2.velocity.x + corpuscule2.velocity.y * corpuscule2.velocity.y)
 			
 			// calculate the angle in radians for each ball using it's current velocities
 			// Calculate the angle formed by vector velocity of each ball, knowing your direction.
-			var direction1:Number = Math.atan2(atom.velocity.y, atom.velocity.x);
-			var direction2:Number = Math.atan2(neitrino.velocity.y, neitrino.velocity.x);
+			var direction1:Number = Math.atan2(corpuscule1.velocity.y, corpuscule1.velocity.x);
+			var direction2:Number = Math.atan2(corpuscule2.velocity.y, corpuscule2.velocity.x);
 			
 			// rotate the vectors counterclockwise so we can
 			// calculate the conservation of momentum next
@@ -178,8 +180,8 @@ package by.bsuir.animation
 			
 			// take the mass of each ball and update their velocities based
 			// on the law of conservation of momentum
-			var finalVelocityX1:Number = ((atom.mass - neitrino.mass) * velocityX1 + (neitrino.mass + neitrino.mass) * velocityX2) / (atom.mass + neitrino.mass);
-			var finalVelocityX2:Number = ((atom.mass + atom.mass) * velocityX1 + (neitrino.mass - atom.mass) * velocityX2) / (atom.mass + neitrino.mass);
+			var finalVelocityX1:Number = ((corpuscule1.mass - corpuscule2.mass) * velocityX1 + (corpuscule2.mass + corpuscule2.mass) * velocityX2) / (corpuscule1.mass + corpuscule2.mass);
+			var finalVelocityX2:Number = ((corpuscule1.mass + corpuscule1.mass) * velocityX1 + (corpuscule2.mass - corpuscule1.mass) * velocityX2) / (corpuscule1.mass + corpuscule2.mass);
 			
 			// Y velocities stay constant
 			// because this is an 1D environment collision
@@ -188,25 +190,25 @@ package by.bsuir.animation
 			
 			// after we have our final velocities, we rotate the angles back
 			// so that the collision angle is preserved
-			atom.velocity.x = Math.cos(collisionAngle) * finalVelocityX1 + Math.cos(collisionAngle + Math.PI / 2) * finalVelocityY1;
-			atom.velocity.y = Math.sin(collisionAngle) * finalVelocityX1 + Math.sin(collisionAngle + Math.PI / 2) * finalVelocityY1;
-			neitrino.velocity.x = Math.cos(collisionAngle) * finalVelocityX2 + Math.cos(collisionAngle + Math.PI / 2) * finalVelocityY2;
-			neitrino.velocity.y = Math.sin(collisionAngle) * finalVelocityX2 + Math.sin(collisionAngle + Math.PI / 2) * finalVelocityY2;
+			corpuscule1.velocity.x = Math.cos(collisionAngle) * finalVelocityX1 + Math.cos(collisionAngle + Math.PI / 2) * finalVelocityY1;
+			corpuscule1.velocity.y = Math.sin(collisionAngle) * finalVelocityX1 + Math.sin(collisionAngle + Math.PI / 2) * finalVelocityY1;
+			corpuscule2.velocity.x = Math.cos(collisionAngle) * finalVelocityX2 + Math.cos(collisionAngle + Math.PI / 2) * finalVelocityY2;
+			corpuscule2.velocity.y = Math.sin(collisionAngle) * finalVelocityX2 + Math.sin(collisionAngle + Math.PI / 2) * finalVelocityY2;
 			
 			// add velocity to ball positions
-			atom.x += atom.velocity.x;
-			atom.y += atom.velocity.y;
-			neitrino.x += neitrino.velocity.x;
-			neitrino.y += neitrino.velocity.y;
+			corpuscule1.x += corpuscule1.velocity.x;
+			corpuscule1.y += corpuscule1.velocity.y;
+			corpuscule2.x += corpuscule2.velocity.x;
+			corpuscule2.y += corpuscule2.velocity.y;
 		}
 		
-		private function hitTestCircle(atom:AnimateCorpuscule, neitrino:AnimateCorpuscule):Boolean
+		private function hitTestCircle(corpuscule1:AnimateCorpuscule, corpuscule2:AnimateCorpuscule):Boolean
 		{
 			var retval:Boolean = false;
 			
-			var distance:Number = getDistance(atom.x - neitrino.x, atom.y - neitrino.y);
+			var distance:Number = getDistance(corpuscule1.x - corpuscule2.x, corpuscule1.y - corpuscule2.y);
 			
-			if (distance <= (atom.radius + neitrino.radius))
+			if (distance <= (corpuscule1.radius + corpuscule2.radius))
 			{
 				retval = true;
 			}

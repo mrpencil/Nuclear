@@ -28,9 +28,11 @@ package by.bsuir.animation.entity
 		private var speed:Number;
 		public var mass:Number;
 		public var velocity:Point;
-		protected var image:BitmapData;
+		//protected var image:BitmapData;
 		protected var image_sprite:Sprite;
-		private var directions:Array = [Math.PI / 4, 3 * Math.PI / 4, 5 * Math.PI / 4];
+
+		[Embed(source = "../../../../../img/atom_texture_u.png")]
+		public var image:Class;
 		
 		public function AnimateCorpuscule(corpuscule:Corpuscule = null, angle:Number = 0, x:int = 0, y:int = 0, radius:int = 0)
 		{
@@ -39,38 +41,15 @@ package by.bsuir.animation.entity
 			this.x = x;
 			this.y = y;
 			this.radius = radius;
-			this.radians = 1 * Math.PI / 180;
-			this.speed = 1;
+			this.radians =  Math.floor(Math.random() * 360) * Math.PI / 180;
+			this.speed = 0;
 			this.mass = this.radius;
-			this.velocity = new Point(Math.cos(this.radians) * this.speed, Math.sin(this.radians) * this.speed);		
+			this.velocity = new Point(0, 0);
+			/*
 			this.graphics.lineStyle(1);
 			this.graphics.beginFill(0xCCCCCC);
 			this.graphics.drawCircle(0, 0, radius);
-			this.graphics.endFill();
-		}
-		
-		public function Render():void
-		{
-			
-			var matrix:Matrix = new Matrix();
-			matrix.translate(x, y);
-			Scene.renderer.draw(image_sprite, matrix);
-		}
-		
-		public function Update():void
-		{
-			x += velocity.x;
-			y += velocity.y;
-			
-			if (x + radius <= 0)
-				x = Scene.renderer.width - radius;
-			else if (x >= Scene.renderer.width)
-				velocity.x = -velocity.x;
-			
-			if (y + radius <= 0)
-				y = Scene.renderer.height - radius;
-			else if (y >= Scene.renderer.height)
-				velocity.y = -velocity.y;
+			this.graphics.endFill();*/
 		}
 		
 		public function CheckIfInNonRotatedRect(animateCorpuscule:AnimateCorpuscule):Boolean

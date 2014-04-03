@@ -18,6 +18,9 @@ package by.bsuir.animation.entity
 	 */
 	public class AnimateAtom extends AnimateCorpuscule
 	{
+		
+		[Embed(source = "../../../../../img/atom_texture_u.png")]
+		private var image:Class;
 		public function AnimateAtom(corpuscule:Corpuscule = null, angle:Number = 0, x:int = 0, y:int = 0, radius:int = 0) 
 		{
 			super(AtomsCreator.createElement(AtomsCreator.U_235),angle, x, y,radius);
@@ -25,6 +28,10 @@ package by.bsuir.animation.entity
 				-NuclearProcesses.SLOW_NEITRON_VELOCITY * Math.cos(angle),
 				-NuclearProcesses.SLOW_NEITRON_VELOCITY * Math.sin(angle)
 			);
+			var bitmap:Bitmap = new image();
+			bitmap.width = bitmap.height = radius;
+			
+			this.addChild(bitmap);
 		}
 		
 	}
