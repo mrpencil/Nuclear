@@ -6,6 +6,7 @@ package by.bsuir.animation
 	import by.bsuir.entity.Neitrino;
 	import by.bsuir.helper.PropertiesHelper;
 	import by.bsuir.helper.AtomsCreator;
+	import by.bsuir.user_interface.UserInterface;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	
@@ -28,6 +29,7 @@ package by.bsuir.animation
 		public function Physics(_canvas:DisplayObjectContainer)
 		{
 			this.canvas = _canvas;
+			UserInterface.createUserInterface(_canvas);
 			setBoundries(canvas);
 		}
 		

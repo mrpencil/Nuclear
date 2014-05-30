@@ -20,7 +20,7 @@ package by.bsuir.animation.entity
 	{
 		
 		[Embed(source = "../../../../../img/atom_texture_u.png")]
-		private var image:Class;
+		private var imageXS:Class;
 		public function AnimateAtom(corpuscule:Corpuscule = null, angle:Number = 0, x:int = 0, y:int = 0, radius:int = 0) 
 		{
 			super(AtomsCreator.createElement(AtomsCreator.U_235),angle, x, y,radius);

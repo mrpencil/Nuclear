@@ -20,7 +20,7 @@ package by.bsuir.animation.entity
 	public class AnimateNeitrino extends AnimateCorpuscule
 	{
 		[Embed(source="../../../../../img/neitron.png")]
-		private var image:Class;
+		private var imageXS:Class;
 		public function AnimateNeitrino(corpuscule:Corpuscule = null, angle:Number = 0, x:int = 0, y:int = 0, radius:int = 0)
 		{
 			super(corpuscule, angle, x, y, radius);
