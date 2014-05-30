@@ -74,6 +74,8 @@ package by.bsuir.user_interface
 			var field:CustomTextField = new CustomTextField();
 			var slider:SliderDemo = new SliderDemo();
 			
+			var infoPanel:InfoPanel = new InfoPanel(_canvas, this.width);
+			
 			//добавляем первую кнопку, затем перемещаем её на требуемое место
 			this.addChild(btn1);
 			btn1.x = (_w - btn1.width) / 2; btn1.y = 70;
@@ -96,6 +98,7 @@ package by.bsuir.user_interface
 			slider.y = field.y + field.height + 30;
 			this.addChild(slider);
 			
+			_canvas.addChild(infoPanel);
 			_canvas.addChild(this);
 		}
 		

@@ -1,5 +1,13 @@
 package by.bsuir.user_interface 
 {
+	import flash.display.DisplayObjectContainer;
+	import flash.geom.Matrix;
+	import flash.text.TextField;
+	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
+	import flash.display.*;
+	import flash.text.TextFormat;
+	
 	/**
 	 * ...
 	 * @author 
@@ -10,7 +18,6 @@ package by.bsuir.user_interface
 		private const _alphas:Array = [100, 100, 100, 100];
 		private const _ratios:Array = [0, 126, 127, 255];
 		
-		private var _percentageLabel:TextField;
 		private var _atomsLabel:TextField;
 		private var _neitronsLabel:TextField;
 		
@@ -18,17 +25,20 @@ package by.bsuir.user_interface
 		private const _matrix:Matrix = new Matrix();
 		
 		private var _w:Number = 100;
-		private	var _h:Number = 0;
+		private	var _h:Number = 40;
+		
+		private const  _defaultNeitronsTitle:String = "Нейтроны: ";
+		private const  _defaultAtomsTitle:String = "Атомы: ";
 		
 		// Singleton for igor
 		private static var _instance:InfoPanel = null;
 		
 		public static function instance():InfoPanel 
 		{
-			return (_instance == null) ? (_instance = new InfoPanel()) : _instance;
+			return  _instance;
 		}
 		
-		private function InfoPanel() 
+		public function InfoPanel(_canvas:DisplayObjectContainer, leftOffset:int) 
 		{
 			super();
 			this.x = 0; this.y = 0;
@@ -37,59 +47,68 @@ package by.bsuir.user_interface
 			myFormat.size = 13;
 			myFormat.color = 0xFFAD3B;	
  
+			_w = _canvas.width - leftOffset;
+			
+			this.x = leftOffset;
+			
 			this.graphics.lineStyle(0, 0x6D7871, 60, true, "none", "square", "round");
- 
-			_h = _canvas.height;
 			
 			_matrix.createGradientBox(_w, _h, 90 / 180 * Math.PI);
 			
-			this.graphics.beginGradientFill(GradientType.LINEAR, _colors, _alphas, _ratios, _matrix);
+			this.graphics.beginGradientFill(GradientType.RADIAL, _colors, _alphas, _ratios, _matrix);
  
 			this.graphics.drawRect(0, 0, _w, _h);
- 
-			this.graphics.endFill();
 			
-			_label = new TextField();
-			_label.width = _w;
-			_label.height = _h-5;
-			_label.y = 5;
-			_label.selectable = false;
-			_label.text = "Панель \n управления";
-			_label.setTextFormat(myFormat);
+			this.graphics.endFill();
 			
 			this.buttonMode = false;
 			
-			_label.mouseEnabled = false;
+			myFormat.color = 0xFFAD3B;
 			
-			this.addChild(_label);
+			var borderOffset:int = 30;
 			
-				//создаем кнопочки
-			var btn1:Button = new Button();
-			var btn2:Button = new Button();
-			var btn3:ImageButton = new ImageButton();
+			_atomsLabel = new TextField();
+			_atomsLabel.height = _h-10;
+			_atomsLabel.y = 5;
+			_atomsLabel.x = borderOffset;
+			_atomsLabel.selectable = false;
+			_atomsLabel.text = _defaultAtomsTitle;
+			_atomsLabel.setTextFormat(myFormat);
+			_atomsLabel.mouseEnabled = false;
+			this.addChild(_atomsLabel);
 			
-			var slider:SliderDemo = new SliderDemo();
-			//добавляем первую кнопку, затем перемещаем её на требуемое место
-			this.addChild(btn1);
-			btn1.x = (_w - btn1.width) / 2; btn1.y = 70;
-//назначаем текст
-			btn1.label = "Старт";
-		 //дальше - аналогично...
-			this.addChild(btn2);
-			btn2.x = (_w - btn2.width) / 2; btn2.y = btn1.y + 50;
-			btn2.label = "Стоп";
- 
-			this.addChild(btn3);
-			btn3.width = this.width / 3;
-			btn3.x = (_w - btn3.width) / 2; btn3.y = this.height - slider.height;
+			myFormat.color = 0x53FF55;	
 			
-			slider.x = _w / 2;
-			slider.y =  btn2.y + 70;
-			this.addChild(slider);
+			_neitronsLabel = new TextField();
+			_neitronsLabel.height = _h - 10;
+			_neitronsLabel.text = _defaultNeitronsTitle;
+			_neitronsLabel.y = 5;
+			_neitronsLabel.x = _w - borderOffset - _neitronsLabel.width;
+			_neitronsLabel.selectable = false;
+			_neitronsLabel.setTextFormat(myFormat);
+			_neitronsLabel.mouseEnabled = false;
+			this.addChild(_neitronsLabel);
 			
 			_canvas.addChild(this);
+			_instance = this;
+		}
+		
+		public function setNumberOfAtoms(count:int):void
+		{
+			myFormat.color = 0xFFAD3B;
+			_atomsLabel.text = _defaultAtomsTitle + count;
+			_atomsLabel.setTextFormat(myFormat);
+		}
+		
+		public function setNumberOfNeitrons(count:int):void
+		{
+			myFormat.color = 0x53FF55;
+			_neitronsLabel.text = _defaultNeitronsTitle + count;
+			_neitronsLabel.setTextFormat(myFormat);
 		}
 		
 	}
+	
+
 
 }
