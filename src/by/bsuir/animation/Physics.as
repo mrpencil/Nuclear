@@ -8,8 +8,12 @@ package by.bsuir.animation
 	import by.bsuir.helper.AtomsCreator;
 	import by.bsuir.user_interface.UserInterface;
 	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
 	import flash.events.Event;
-	
+	import by.bsuir.user_interface.InfoPanel;
+	import by.bsuir.logic.NuclearProcesses;;
+	import by.bsuir.entity.Agregate.Atom;
+	import flash.utils.ByteArray;
 	/**
 	 * ...
 	 * @author igor
@@ -57,18 +61,29 @@ package by.bsuir.animation
 		
 		public function createAtom(type:String):void
 		{
+			this.createAtomWithCoordinates(Math.random() * 10, Math.random() * 30, type);
+		}
+		
+		public function createAtomWithCoordinates(x:Number, y:Number, type:String)
+		{
 			var atom:AnimateAtom;
-			atom = new AnimateAtom(AtomsCreator.createElement(type), Math.random() * 10, Math.random() * 10, Math.random() * 30, 15);
+			atom = new AnimateAtom(AtomsCreator.createElement(type), Math.random() * 10, x, y, 15);
 			canvas.addChild(atom);
-			atomsArray.push(atom as AnimateCorpuscule);
+			atomsArray.push(atom);
+		}
+		
+		public function createNeitrinoWithCoordinates(x:Number, y:Number):void
+		{
+			var neitrino:AnimateNeitrino;
+			neitrino = new AnimateNeitrino(new Neitrino(), Math.random() * 10, x, y, 4);
+			neitrino.x = 600;
+			canvas.addChild(neitrino);
+			neitrinosArray.push(neitrino);
 		}
 		
 		public function createNeitrino():void
 		{
-			var neitrino:AnimateNeitrino;
-			neitrino = new AnimateNeitrino(new Neitrino(), Math.random() * 10, Math.random() * 20, Math.random() * 50, 4);
-			canvas.addChild(neitrino);
-			neitrinosArray.push(neitrino as AnimateCorpuscule);
+			createNeitrinoWithCoordinates( Math.random() * 20, Math.random() * 50);
 		}
 		
 		private function onEnterFrame(e:Event):void
@@ -78,25 +93,45 @@ package by.bsuir.animation
 		
 		public function update():void
 		{
-			// define common vars
-			var tempAtom:AnimateCorpuscule;
-			var tempAtom1:AnimateCorpuscule;
-			var i:int;
-			var k:int;
-			
-			checkCorpusculeCollisions(atomsArray, neitrinosArray);
-			checkCorpusculeCollisions(atomsArray, atomsArray);
-			checkCorpusculeCollisions(neitrinosArray, neitrinosArray);
+			checkCorpusculeCollisions(atomsArray, neitrinosArray, true);
+			checkCorpusculeCollisions(atomsArray, atomsArray, false);
+			checkCorpusculeCollisions(neitrinosArray, neitrinosArray, false);
+			InfoPanel.instance().setNumberOfAtoms(atomsArray.length);
+			InfoPanel.instance().setNumberOfNeitrons(neitrinosArray.length);
 		}
 		
-		private function checkCorpusculeCollisions(array1:Array, array2:Array):void
+		private function atomDestroyed(corpuscule:AnimateAtom):void
 		{
+				var result:Object =  NuclearProcesses.decayNuclearCore(corpuscule.getCorpuscule() as Atom);
+				var values:Array = result[NuclearProcesses.ATOMS] as Array;
+				for (var i:int = 0; i < values.length; i++)
+				{
+					var atom:Atom = values[i] as Atom;
+					createAtomWithCoordinates(corpuscule.x + corpuscule.height * Math.pow( -1, i) * Math.random(), 
+											  corpuscule.y + corpuscule.height * Math.pow(-1, i) * Math.random(), atom.getAtomIdentifier());
+				}
+				
+				var neitrons:Array = result[NuclearProcesses.NEITRONS] as Array;
+				for (var i:int = 0; i < neitrons.length; i++)
+				{
+					createNeitrinoWithCoordinates(corpuscule.x + corpuscule.height * Math.pow(-1,i) * Math.random(), 
+												  corpuscule.y + corpuscule.height * Math.pow(-1,i) * Math.random());
+				}
+		}
+		
+		private function checkCorpusculeCollisions(array1:Array, array2:Array, isDestroyed:Boolean):void
+		{
+			
 			var i:int;
 			var k:int;
 			var tempCorpuscule1:AnimateCorpuscule;
 			var tempCorpuscule2:AnimateCorpuscule;
 			
-			for (i = 0; i < array1.length; i++)
+			var array1Result:Array = new Array();
+			
+			var isDecayed:Boolean = false;
+			
+			for(i = 0; i < array1.length; i++)
 			{
 				// save a reference to ball
 				tempCorpuscule1 = array1[i] as AnimateCorpuscule;
@@ -110,48 +145,62 @@ package by.bsuir.animation
 					// check if balls are colliding by checking the distance between them
 					if (hitTestCircle(tempCorpuscule1, tempCorpuscule2))
 					{
-						// calculate collision reaction
-						collideCorpuscules(tempCorpuscule1, tempCorpuscule2);
-						
-						// if balls are still touching after collision reaction,
-						// try to move them apart
-						if (hitTestCircle(tempCorpuscule1, tempCorpuscule2))
+						if (tempCorpuscule1.getCorpuscule() is Atom && isDestroyed ) 
 						{
-							tempCorpuscule1.x += tempCorpuscule1.velocity.x;
-							tempCorpuscule1.y += tempCorpuscule1.velocity.y;
-							tempCorpuscule2.x -= tempCorpuscule1.velocity.x
-							tempCorpuscule2.y -= tempCorpuscule1.velocity.y
+							var atom:Atom = tempCorpuscule1.getCorpuscule() as Atom;
+							if (atom.getAtomIdentifier() == AtomsCreator.U_235)
+							{
+								this.atomDestroyed(tempCorpuscule1 as AnimateAtom);
+								isDecayed = true;
+							}
 						}
+							
+							// calculate collision reaction
+							collideCorpuscules(tempCorpuscule1, tempCorpuscule2);
+							
+							// if balls are still touching after collision reaction,
+							// try to move them apart
+							if (hitTestCircle(tempCorpuscule1, tempCorpuscule2))
+							{
+								tempCorpuscule1.x += tempCorpuscule1.velocity.x;
+								tempCorpuscule1.y += tempCorpuscule1.velocity.y;
+								tempCorpuscule2.x -= tempCorpuscule1.velocity.x
+								tempCorpuscule2.y -= tempCorpuscule1.velocity.y
+							}
 					}
 				}
 				
-				// Bounce off walls
-				// Check if we hit top
-				if (((tempCorpuscule1.x - tempCorpuscule1.radius) < minX) && (tempCorpuscule1.velocity.x < 0))
-				{
-					// reverse velocity
-					tempCorpuscule1.velocity.x = -tempCorpuscule1.velocity.x;
-				}
-				// Check if we hit bottom
-				else if ((tempCorpuscule1.x + tempCorpuscule1.radius) > maxX && (tempCorpuscule1.velocity.x > 0))
-				{
-					// reverse velocity
-					tempCorpuscule1.velocity.x = -tempCorpuscule1.velocity.x;
-				}
-				// Check if we hit left side
-				if (((tempCorpuscule1.y - tempCorpuscule1.radius) < minY) && (tempCorpuscule1.velocity.y < 0))
-				{
-					// reverse velocity
-					tempCorpuscule1.velocity.y = -tempCorpuscule1.velocity.y;
-				}
-				// Check if we hit right side
-				else if (((tempCorpuscule1.y + tempCorpuscule1.radius) > maxY) && (tempCorpuscule1.velocity.y > 0))
-				{
-					// reverse velocity
-					tempCorpuscule1.velocity.y = -tempCorpuscule1.velocity.y;
-				}
+		
+		
+					// Bounce off walls
+					// Check if we hit top
+					if (((tempCorpuscule1.x - tempCorpuscule1.radius) < minX) && (tempCorpuscule1.velocity.x < 0))
+					{
+						// reverse velocity
+						tempCorpuscule1.velocity.x = -tempCorpuscule1.velocity.x;
+					}
+					// Check if we hit bottom
+					else if ((tempCorpuscule1.x + tempCorpuscule1.radius) > maxX && (tempCorpuscule1.velocity.x > 0))
+					{
+						// reverse velocity
+						tempCorpuscule1.velocity.x = -tempCorpuscule1.velocity.x;
+					}
+					// Check if we hit left side
+					if (((tempCorpuscule1.y - tempCorpuscule1.radius) < minY) && (tempCorpuscule1.velocity.y < 0))
+					{
+						// reverse velocity
+						tempCorpuscule1.velocity.y = -tempCorpuscule1.velocity.y;
+					}
+					// Check if we hit right side
+					else if (((tempCorpuscule1.y + tempCorpuscule1.radius) > maxY) && (tempCorpuscule1.velocity.y > 0))
+					{
+						// reverse velocity
+						tempCorpuscule1.velocity.y = -tempCorpuscule1.velocity.y;
+					}
 				
 			}
+	//		array1 = array1Result;
+	//		var abs:int = 1;
 		}
 		
 		private function collideCorpuscules(corpuscule1:AnimateCorpuscule, corpuscule2:AnimateCorpuscule):void

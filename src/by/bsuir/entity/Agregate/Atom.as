@@ -67,7 +67,8 @@ package by.bsuir.entity.Agregate
 								this.neitrons_number, 
 								this.element_title, 
 								this.bound_energy, 
-								this.element_color);
+								this.element_color,
+								this.atom_identifier);
 			return atom;
 			
 		}

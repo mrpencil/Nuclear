@@ -23,7 +23,7 @@ package by.bsuir.animation.entity
 		private var imageXS:Class;
 		public function AnimateAtom(corpuscule:Corpuscule = null, angle:Number = 0, x:int = 0, y:int = 0, radius:int = 0) 
 		{
-			super(AtomsCreator.createElement(AtomsCreator.U_235),angle, x, y,radius);
+			super(corpuscule,angle, x, y,radius);
 			super.velocity = new Point(
 				-NuclearProcesses.SLOW_NEITRON_VELOCITY * Math.cos(angle),
 				-NuclearProcesses.SLOW_NEITRON_VELOCITY * Math.sin(angle)

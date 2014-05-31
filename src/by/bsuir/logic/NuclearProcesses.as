@@ -20,7 +20,7 @@ package by.bsuir.logic
 		{
 		}
 		
-		public function decayNuclearCore(atom:Atom):Object
+		public static function decayNuclearCore(atom:Atom):Object
 		{
 			var resultAtomsArray:Array = new Array();
 			var resultNeitronsArray:Array = new Array();
@@ -31,7 +31,7 @@ package by.bsuir.logic
 			
 			if (atom.getAtomIdentifier() == AtomsCreator.U_235)
 			{
-				switch (Math.round(Math.random() * 10))
+				switch (Math.round(Math.random() * 9))
 				{
 					case 0: 
 					case 2: 

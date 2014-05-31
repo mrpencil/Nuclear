@@ -50,7 +50,7 @@ package by.bsuir.animation
 		{
 			trashAtoms.push(
 				new AnimateAtom(
-					AtomsCreator.createElement(AtomsCreator.Xe_143), 
+					AtomsCreator.createElement(AtomsCreator.U_235), 
 					Math.random() * 10, 
 					Math.random() * 10, 
 					Math.random() * 30,
@@ -58,7 +58,7 @@ package by.bsuir.animation
 			);
 			trashAtoms.push(
 				new AnimateAtom(
-					AtomsCreator.createElement(AtomsCreator.Xe_143), 
+					AtomsCreator.createElement(AtomsCreator.U_235), 
 					Math.random() * 10, 
 					Math.random() * 10, 
 					Math.random() * 30,
@@ -73,7 +73,6 @@ package by.bsuir.animation
 						2)
 				);
 			atoms.splice(atomReaction, 1);
-			
 		}
 	}
 
