@@ -7,13 +7,18 @@ package by.bsuir.animation
 	import by.bsuir.helper.PropertiesHelper;
 	import by.bsuir.helper.AtomsCreator;
 	import by.bsuir.user_interface.UserInterface;
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.DisplayObjectContainer;
+	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import by.bsuir.user_interface.InfoPanel;
 	import by.bsuir.logic.NuclearProcesses;;
 	import by.bsuir.entity.Agregate.Atom;
 	import flash.utils.ByteArray;
+	import by.bsuir.user_interface.ControlPanel;
+	import by.bsuir.user_interface.InfoPanel;
 	/**
 	 * ...
 	 * @author igor
@@ -32,7 +37,16 @@ package by.bsuir.animation
 		
 		public function Physics(_canvas:DisplayObjectContainer)
 		{
-			this.canvas = _canvas;
+			this.canvas = new MovieClip();
+			canvas.x = ControlPanel.getLeftOffset();
+			canvas.y = InfoPanel.getTopOffset();
+			var renderer:BitmapData = new BitmapData(_canvas.width - canvas.x, _canvas.height - canvas.y, false, 0x000000);
+			var bitMap:Bitmap = new Bitmap(renderer);
+			this.canvas.addChild(bitMap);
+			
+			
+		
+			_canvas.addChild(canvas);
 			UserInterface.createUserInterface(_canvas);
 			setBoundries(canvas);
 		}
@@ -61,7 +75,7 @@ package by.bsuir.animation
 		
 		public function createAtom(type:String):void
 		{
-			this.createAtomWithCoordinates(Math.random() * 10, Math.random() * 30, type);
+			this.createAtomWithCoordinates(140,100, type);
 		}
 		
 		public function createAtomWithCoordinates(x:Number, y:Number, type:String)
@@ -76,14 +90,13 @@ package by.bsuir.animation
 		{
 			var neitrino:AnimateNeitrino;
 			neitrino = new AnimateNeitrino(new Neitrino(), Math.random() * 10, x, y, 4);
-			neitrino.x = 600;
 			canvas.addChild(neitrino);
 			neitrinosArray.push(neitrino);
 		}
 		
 		public function createNeitrino():void
 		{
-			createNeitrinoWithCoordinates( Math.random() * 20, Math.random() * 50);
+			createNeitrinoWithCoordinates( canvas.width - 40, 100);
 		}
 		
 		private function onEnterFrame(e:Event):void
@@ -128,29 +141,28 @@ package by.bsuir.animation
 			var tempCorpuscule2:AnimateCorpuscule;
 			
 			var array1Result:Array = new Array();
-			
 			var isDecayed:Boolean = false;
-			
 			for(i = 0; i < array1.length; i++)
 			{
 				// save a reference to ball
-				tempCorpuscule1 = array1[i] as AnimateCorpuscule;
+				tempCorpuscule1 = array1[i];
 				
 				// check for collision with other balls
 				for (k = 0; k < array2.length; k++)
 				{
 					// save a reference to ball 2
-					tempCorpuscule2 = array2[k] as AnimateCorpuscule;
+					tempCorpuscule2 = array2[k];
 					
 					// check if balls are colliding by checking the distance between them
 					if (hitTestCircle(tempCorpuscule1, tempCorpuscule2))
 					{
-						if (tempCorpuscule1.getCorpuscule() is Atom && isDestroyed ) 
+						if (tempCorpuscule1.getCorpuscule() is Atom && isDestroyed && !isDecayed) 
 						{
 							var atom:Atom = tempCorpuscule1.getCorpuscule() as Atom;
 							if (atom.getAtomIdentifier() == AtomsCreator.U_235)
 							{
 								this.atomDestroyed(tempCorpuscule1 as AnimateAtom);
+								array1Result.push(tempCorpuscule1);
 								isDecayed = true;
 							}
 						}
@@ -169,9 +181,7 @@ package by.bsuir.animation
 							}
 					}
 				}
-				
-		
-		
+				isDecayed = false;
 					// Bounce off walls
 					// Check if we hit top
 					if (((tempCorpuscule1.x - tempCorpuscule1.radius) < minX) && (tempCorpuscule1.velocity.x < 0))
@@ -199,10 +209,29 @@ package by.bsuir.animation
 					}
 				
 			}
+	    	for (var corpuscule in array1Result)
+			{
+				remove(array1, removeCallback);
+				function removeCallback(item:AnimateCorpuscule):Boolean {
+					return (array1Result.indexOf(item) ==  -1);
+				}
+			}
+			
 	//		array1 = array1Result;
 	//		var abs:int = 1;
 		}
 		
+		
+		function remove(list:Array,callback:Function):Array {
+			for(var i:int = list.length - 1; i >= 0; i--) {
+				if (!callback(list[i])) {
+					canvas.removeChild(list[i]);
+					list.splice(i, 1);
+				}
+			}
+			return list;
+		}
+			
 		private function collideCorpuscules(corpuscule1:AnimateCorpuscule, corpuscule2:AnimateCorpuscule):void
 		{
 			// calculate the distance between center of balls with the Pytagorean theorem

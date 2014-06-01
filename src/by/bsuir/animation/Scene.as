@@ -38,7 +38,7 @@ package by.bsuir.animation
 		{
 			trace("Scene created");
 			currentTime = getTimer();
-			renderer = new BitmapData(800, 600, false, 0x000000);
+			renderer = new BitmapData(800, 600, false, 0xADADAD);
 			bitMap = new Bitmap(renderer);
 			canvas.addChild(bitMap);
 			physics = new Physics(canvas);

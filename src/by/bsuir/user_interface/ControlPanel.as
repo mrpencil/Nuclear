@@ -29,8 +29,13 @@ package by.bsuir.user_interface
 		private var myFormat:TextFormat = new TextFormat();
 		private const _matrix:Matrix = new Matrix();
 		
-		private var _w:Number = 100;
-		private	var _h:Number = 0;
+		private static var _w:Number = 100;
+		private	static var _h:Number = 0;
+		
+		public static function getLeftOffset():Number
+		{
+			return _w;
+		}
 		
 		public function ControlPanel(_canvas:DisplayObjectContainer) 
 		{

@@ -5,6 +5,7 @@ package by.bsuir.animation.entity
 	import by.bsuir.entity.Agregate.Atom;
 	import by.bsuir.logic.NuclearProcesses;
 	import by.bsuir.animation.Scene;
+	import by.bsuir.animation.helper.ImageResources;
 	
 	import flash.geom.Point;
 	import flash.geom.Matrix;
@@ -19,8 +20,7 @@ package by.bsuir.animation.entity
 	public class AnimateAtom extends AnimateCorpuscule
 	{
 		
-		[Embed(source = "../../../../../img/atom_texture_u.png")]
-		private var imageXS:Class;
+
 		public function AnimateAtom(corpuscule:Corpuscule = null, angle:Number = 0, x:int = 0, y:int = 0, radius:int = 0) 
 		{
 			super(corpuscule,angle, x, y,radius);
@@ -28,7 +28,11 @@ package by.bsuir.animation.entity
 				-NuclearProcesses.SLOW_NEITRON_VELOCITY * Math.cos(angle),
 				-NuclearProcesses.SLOW_NEITRON_VELOCITY * Math.sin(angle)
 			);
-			var bitmap:Bitmap = new image();
+			if (corpuscule is Atom)
+			{
+				
+				var bitmap:Bitmap = ImageResources.getImageBitmap((corpuscule as Atom).getAtomIdentifier());
+			}
 			bitmap.width = bitmap.height = radius;
 			
 			this.addChild(bitmap);

@@ -5,6 +5,7 @@ package by.bsuir.animation.entity
 	import by.bsuir.entity.Agregate.Atom;
 	import by.bsuir.logic.NuclearProcesses;
 	import by.bsuir.animation.Scene;
+	import by.bsuir.animation.helper.ImageResources;
 	
 	import flash.geom.Point;
 	import flash.geom.Matrix;
@@ -19,16 +20,15 @@ package by.bsuir.animation.entity
 	 */
 	public class AnimateNeitrino extends AnimateCorpuscule
 	{
-		[Embed(source="../../../../../img/neitron.png")]
-		private var imageXS:Class;
+		
 		public function AnimateNeitrino(corpuscule:Corpuscule = null, angle:Number = 0, x:int = 0, y:int = 0, radius:int = 0)
 		{
 			super(corpuscule, angle, x, y, radius);
 			super.velocity = new Point(
-				-NuclearProcesses.SLOW_NEITRON_VELOCITY * Math.cos(angle),
-				-NuclearProcesses.SLOW_NEITRON_VELOCITY * Math.sin(angle)
+				-NuclearProcesses.FAST_NEITRON_VELOCITY * Math.cos(angle),
+				-NuclearProcesses.FAST_NEITRON_VELOCITY * Math.sin(angle)
 			);
-			var bitMap:Bitmap = new image();
+			var bitMap:Bitmap = ImageResources.getImageBitmap();
 			bitMap.width = bitMap.height = radius;
 			this.addChild(bitMap);
 			

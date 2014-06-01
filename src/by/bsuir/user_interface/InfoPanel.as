@@ -24,12 +24,16 @@ package by.bsuir.user_interface
 		private var myFormat:TextFormat = new TextFormat();
 		private const _matrix:Matrix = new Matrix();
 		
-		private var _w:Number = 100;
-		private	var _h:Number = 40;
+		private static var _w:Number = 100;
+		private	static var _h:Number = 40;
 		
 		private const  _defaultNeitronsTitle:String = "Нейтроны: ";
 		private const  _defaultAtomsTitle:String = "Атомы: ";
 		
+		public static function getTopOffset():Number
+		{
+			return _h;
+		}
 		// Singleton for igor
 		private static var _instance:InfoPanel = null;
 		

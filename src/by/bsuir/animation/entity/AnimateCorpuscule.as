@@ -30,9 +30,6 @@ package by.bsuir.animation.entity
 		public var velocity:Point;
 		//protected var image:BitmapData;
 		protected var image_sprite:Sprite;
-
-		[Embed(source = "../../../../../img/atom_texture_u.png")]
-		public var image:Class;
 		
 		public function AnimateCorpuscule(corpuscule:Corpuscule = null, angle:Number = 0, x:int = 0, y:int = 0, radius:int = 0)
 		{

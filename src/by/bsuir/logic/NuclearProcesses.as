@@ -10,8 +10,8 @@ package by.bsuir.logic
 	 */
 	public class NuclearProcesses
 	{
-		public static var SLOW_NEITRON_VELOCITY:int = 30;
-		public static var FAST_NEITRON_VELOCITY:int = 10000;
+		public static var SLOW_NEITRON_VELOCITY:int = 4;
+		public static var FAST_NEITRON_VELOCITY:int = 8;
 		
 		public static var ATOMS:String = "atoms";
 		public static var NEITRONS:String = "neitrons";
