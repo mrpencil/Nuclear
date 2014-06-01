@@ -73,6 +73,14 @@ package by.bsuir.entity.Agregate
 			
 		}
 		
+		public override function getString():String
+		{
+			return "Тип: Атом \n" + "Название: " + element_title + "\n" + 
+					"Число протонов: " + protonts_number + "\n" +
+					"Число электронов: " + electrons_number + "\n" + 
+					"Число нейтронов: " + neitrons_number + "\n" + 
+					"Энергия связи: " + bound_energy + "\n" + super.getString();
+		}
 	}
 
 }

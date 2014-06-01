@@ -20,6 +20,7 @@ package by.bsuir.user_interface
 		
 		private var _atomsLabel:TextField;
 		private var _neitronsLabel:TextField;
+		private var _energyLabel:TextField;
 		
 		private var myFormat:TextFormat = new TextFormat();
 		private const _matrix:Matrix = new Matrix();
@@ -29,6 +30,7 @@ package by.bsuir.user_interface
 		
 		private const  _defaultNeitronsTitle:String = "Нейтроны: ";
 		private const  _defaultAtomsTitle:String = "Атомы: ";
+		private const  _defaultEnergyTitle:String = "Энергия: ";
 		
 		public static function getTopOffset():Number
 		{
@@ -87,6 +89,21 @@ package by.bsuir.user_interface
 			this.addChild(_neitronsLabel);
 			
 			_canvas.addChild(this);
+			
+			myFormat.color = 0xFA8072;	
+			
+			_energyLabel = new TextField();
+			_energyLabel.height = _h - 10;
+			_energyLabel.width = 112;
+			_energyLabel.text = _defaultEnergyTitle;
+			_energyLabel.y = 5;
+			_energyLabel.x =( _w - borderOffset - _energyLabel.width)/ 2;
+			_energyLabel.selectable = false;
+			_energyLabel.setTextFormat(myFormat);
+			_energyLabel.mouseEnabled = false;
+			this.addChild(_energyLabel);
+			
+			_canvas.addChild(this);
 		}
 		
 		public function setNumberOfAtoms(count:int):void
@@ -101,6 +118,13 @@ package by.bsuir.user_interface
 			myFormat.color = 0x53FF55;
 			_neitronsLabel.text = _defaultNeitronsTitle + count;
 			_neitronsLabel.setTextFormat(myFormat);
+		}
+		
+		public function setEnergy(count:Number):void
+		{
+			myFormat.color = 0xFA8072;
+			_energyLabel.text = _defaultEnergyTitle + count;
+			_energyLabel.setTextFormat(myFormat);
 		}
 		
 	}

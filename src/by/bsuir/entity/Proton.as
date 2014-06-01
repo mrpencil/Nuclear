@@ -15,6 +15,11 @@ package by.bsuir.entity
 			this.setCharge(PropertiesHelper.PROTON_CHARGE);
 		}
 		
+		public override function getString():String
+		{
+			return "Тип: Протон \n" + super.getString();
+		}
+		
 	}
 
 }

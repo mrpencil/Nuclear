@@ -37,6 +37,11 @@ package by.bsuir.entity
 			this.charge = value;
 		}
 		
+		public function getString():String
+		{
+			return "Масса: " + this.getWeight() + "\n" + 
+				   "Заряд: " + this.getCharge() + "\n";
+		}
 		
 	}
 	

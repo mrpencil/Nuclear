@@ -27,6 +27,8 @@ package by.bsuir.animation
 	{
 		
 		private var canvas:DisplayObjectContainer;
+		private var mainCanvas:DisplayObjectContainer;
+		
 		private var maxX:Number;
 		private var minX:Number;
 		private var maxY:Number;
@@ -34,8 +36,19 @@ package by.bsuir.animation
 		private var corpusculesArray:Array = [];
 		private var atomsArray:Array = [];
 		private var neitrinosArray:Array = [];
+		private var summuryEnergy:Number = 0;
 		
 		private static var velocityCoficient:Number = 1;
+		
+		public function get MAIN_CANVAS():DisplayObjectContainer
+		{
+			return mainCanvas;
+		}
+		
+		public function get CANVAS():DisplayObjectContainer
+		{
+			return canvas;
+		}
 		
 		public static function get getVelocityCoof():Number
 		{
@@ -51,6 +64,7 @@ package by.bsuir.animation
 		
 		public function Physics(_canvas:DisplayObjectContainer)
 		{
+			this.mainCanvas = _canvas;
 			this.canvas = new MovieClip();
 			var borderOffset:Number = 5;
 			canvas.x = ControlPanel.getLeftOffset() + borderOffset;
@@ -124,6 +138,7 @@ package by.bsuir.animation
 			}
 			atomsArray = new Array();
 			neitrinosArray = new Array();
+			summuryEnergy = 0;
 		}
 		
 		public function createAtom(type:String):void
@@ -164,10 +179,12 @@ package by.bsuir.animation
 			checkCorpusculeCollisions(neitrinosArray, neitrinosArray, false);
 			ControlPanel.instance().setAtomsCount(atomsArray.length);
 			ControlPanel.instance().setNeitronsCount(neitrinosArray.length);
+			ControlPanel.instance().setEnergyCount(summuryEnergy);
 		}
 		
 		private function atomDestroyed(corpuscule:AnimateAtom):void
 		{
+				summuryEnergy += (corpuscule.getCorpuscule() as Atom).getBoundEnergy();
 				var result:Object =  NuclearProcesses.decayNuclearCore(corpuscule.getCorpuscule() as Atom);
 				var values:Array = result[NuclearProcesses.ATOMS] as Array;
 				for (var i:int = 0; i < values.length; i++)

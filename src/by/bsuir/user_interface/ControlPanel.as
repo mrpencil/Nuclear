@@ -168,6 +168,11 @@ package by.bsuir.user_interface
 		{
 			infoPanel.setNumberOfNeitrons(count);
 		}
+		
+		public function setEnergyCount(energy:Number):void
+		{
+			infoPanel.setEnergy(energy);
+		}
 	}
 
 }

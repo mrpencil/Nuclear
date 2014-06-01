@@ -31,7 +31,7 @@ package by.bsuir.animation
 		private var atoms:Array;
 		private var neitrinos:Array;
 		private var trashAtoms:Array;
-
+		
 
 		
 		public function Scene(canvas:DisplayObjectContainer)

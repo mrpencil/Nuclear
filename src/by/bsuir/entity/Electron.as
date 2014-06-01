@@ -15,6 +15,11 @@ package by.bsuir.entity
 			this.setCharge(PropertiesHelper.ELECTRON_CHARGE);
 		}
 		
+		public override function getString():String
+		{
+			return "Тип: Электрон \n" + super.getString();
+		}
+		
 	}
 
 }

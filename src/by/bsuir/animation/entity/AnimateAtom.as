@@ -6,6 +6,7 @@ package by.bsuir.animation.entity
 	import by.bsuir.logic.NuclearProcesses;
 	import by.bsuir.animation.Scene;
 	import by.bsuir.animation.helper.ImageResources;
+	import flash.events.Event;
 	
 	import flash.geom.Point;
 	import flash.geom.Matrix;
@@ -24,7 +25,7 @@ package by.bsuir.animation.entity
 
 		public function AnimateAtom(corpuscule:Corpuscule = null, angle:Number = 0, x:int = 0, y:int = 0, radius:int = 0) 
 		{
-			super(corpuscule,angle, x, y,radius);
+			super(corpuscule, angle, x, y, radius);
 			this.updateVelocity(angle);
 			if (corpuscule is Atom)
 			{
@@ -34,6 +35,7 @@ package by.bsuir.animation.entity
 			bitmap.width = bitmap.height = radius;
 			
 			this.addChild(bitmap);
+	
 		}
 		public override function updateVelocity(angle:Number)
 		{

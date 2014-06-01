@@ -15,6 +15,11 @@ package by.bsuir.entity
 			this.setCharge(PropertiesHelper.NEITRON_CHARGE);
 		}
 		
+		public override function getString():String
+		{
+			return "Тип: Нейтрон \n" + super.getString();
+		}
+		
 	}
 
 }
