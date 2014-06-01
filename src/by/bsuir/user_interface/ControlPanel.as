@@ -112,7 +112,7 @@ package by.bsuir.user_interface
  
 			this.addChild(btn3);
 			btn3.width = this.width / 3;
-			btn3.x = (_w - btn3.width) / 2; btn3.y = this.height - slider.height;
+			btn3.x = (_w - btn3.width) / 2; btn3.y = this.height - 50;
 			btn3.addEventListener(MouseEvent.CLICK, clearBoard);
 			
 			field.x = (_w - field.width) / 2;

@@ -49,35 +49,9 @@ package by.bsuir.animation.entity
 			this.graphics.endFill();*/
 		}
 		
-		public function CheckIfInNonRotatedRect(animateCorpuscule:AnimateCorpuscule):Boolean
+		public function updateVelocity(angle:Number)
 		{
 			
-			var intersecting:Boolean = false;
-			
-			var obj2:Atom = Atom(animateCorpuscule.getCorpuscule());
-			if (obj2.getTitle() == "Уран 235/92")
-			{
-				
-				if (x >= animateCorpuscule.x && x <= animateCorpuscule.x + animateCorpuscule.radius)
-					if (y >= animateCorpuscule.y && y <= animateCorpuscule.y + animateCorpuscule.radius)
-						return true;
-				
-				//now we'll check the top right point
-				if (x + radius >= animateCorpuscule.x && x + radius <= animateCorpuscule.x + animateCorpuscule.radius)
-					if (y >= animateCorpuscule.y && y <= animateCorpuscule.y + animateCorpuscule.radius)
-						return true;
-				
-				//now we check the bottom right point
-				if (x + radius >= animateCorpuscule.x && x + radius <= animateCorpuscule.x + animateCorpuscule.radius)
-					if (y + radius >= animateCorpuscule.y && y + radius <= animateCorpuscule.y + animateCorpuscule.radius)
-						return true;
-				
-				//And check the bottom left point
-				if (x >= animateCorpuscule.x && x <= animateCorpuscule.x + animateCorpuscule.radius)
-					if (y + radius >= animateCorpuscule.y && y + radius <= animateCorpuscule.y + animateCorpuscule.radius)
-						return true;
-			}
-			return intersecting;
 		}
 		
 		public function getCorpuscule():Corpuscule

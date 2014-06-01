@@ -35,6 +35,18 @@ package by.bsuir.animation
 		private var atomsArray:Array = [];
 		private var neitrinosArray:Array = [];
 		
+		private static var velocityCoficient:Number = 1;
+		
+		public static function get getVelocityCoof():Number
+		{
+			return velocityCoficient;
+		}
+		
+		public static function set setVelocityCoof(cf:Number):void
+		{
+			velocityCoficient = cf;
+		}
+		
 		private static var _instance:Physics = null;
 		
 		public function Physics(_canvas:DisplayObjectContainer)
@@ -193,6 +205,8 @@ package by.bsuir.animation
 				{
 					// save a reference to ball 2
 					tempCorpuscule2 = array2[k];
+					
+
 					
 					// check if balls are colliding by checking the distance between them
 					if (hitTestCircle(tempCorpuscule1, tempCorpuscule2))

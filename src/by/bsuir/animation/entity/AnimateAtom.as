@@ -13,6 +13,7 @@ package by.bsuir.animation.entity
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
+	import by.bsuir.animation.Physics;
 	/**
 	 * ...
 	 * @author igor
@@ -24,10 +25,7 @@ package by.bsuir.animation.entity
 		public function AnimateAtom(corpuscule:Corpuscule = null, angle:Number = 0, x:int = 0, y:int = 0, radius:int = 0) 
 		{
 			super(corpuscule,angle, x, y,radius);
-			super.velocity = new Point(
-				-NuclearProcesses.SLOW_NEITRON_VELOCITY * Math.cos(angle),
-				-NuclearProcesses.SLOW_NEITRON_VELOCITY * Math.sin(angle)
-			);
+			this.updateVelocity(angle);
 			if (corpuscule is Atom)
 			{
 				
@@ -36,6 +34,13 @@ package by.bsuir.animation.entity
 			bitmap.width = bitmap.height = radius;
 			
 			this.addChild(bitmap);
+		}
+		public override function updateVelocity(angle:Number)
+		{
+			super.velocity = new Point(
+				-NuclearProcesses.SLOW_NEITRON_VELOCITY * Math.cos(angle) * Physics.getVelocityCoof,
+				-NuclearProcesses.SLOW_NEITRON_VELOCITY * Math.sin(angle) * Physics.getVelocityCoof
+			);
 		}
 		
 	}
