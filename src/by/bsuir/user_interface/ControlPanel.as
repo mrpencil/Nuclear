@@ -15,6 +15,7 @@ package by.bsuir.user_interface
 	import flash.events.MouseEvent;
 	import flash.filters.GlowFilter;
 	import by.bsuir.user_interface.buttons.Button
+	import by.bsuir.animation.Physics;
 	/**
 	 * ...
 	 * @author 
@@ -32,9 +33,24 @@ package by.bsuir.user_interface
 		private static var _w:Number = 100;
 		private	static var _h:Number = 0;
 		
+		private var infoPanel:InfoPanel;
+		private var field:CustomTextField;
+		private var btn2:Button;
+		private var btn1:Button;
+		private var btn3:ImageButton;
+		
+		private var canvas:DisplayObjectContainer;
+		
+		private static var _instance:ControlPanel = null;
+		
 		public static function getLeftOffset():Number
 		{
 			return _w;
+		}
+		
+		public static function instance():ControlPanel 
+		{
+			return  _instance;
 		}
 		
 		public function ControlPanel(_canvas:DisplayObjectContainer) 
@@ -45,7 +61,8 @@ package by.bsuir.user_interface
 			myFormat.font = "Tahoma";
 			myFormat.size = 13;
 			myFormat.color = 0xFFAD3B;	
- 
+			
+			this.canvas = _canvas;
 			this.graphics.lineStyle(0, 0x6D7871, 60, true, "none", "square", "round");
  
 			_h = _canvas.height;
@@ -73,27 +90,30 @@ package by.bsuir.user_interface
 			this.addChild(_label);
 			
 				//создаем кнопочки
-			var btn1:Button = new Button();
-			var btn2:Button = new Button();
-			var btn3:ImageButton = new ImageButton();
-			var field:CustomTextField = new CustomTextField();
+			btn1 = new Button();
+		    btn2 = new Button();
+			btn3 = new ImageButton();
+			this.field = new CustomTextField();
 			var slider:SliderDemo = new SliderDemo();
 			
-			var infoPanel:InfoPanel = new InfoPanel(_canvas, this.width);
+			infoPanel = new InfoPanel(_canvas, this.width);
 			
 			//добавляем первую кнопку, затем перемещаем её на требуемое место
 			this.addChild(btn1);
 			btn1.x = (_w - btn1.width) / 2; btn1.y = 70;
 //назначаем текст
 			btn1.label = "Старт";
+			btn1.addEventListener(MouseEvent.CLICK, startStageProcesses);
 		 //дальше - аналогично...
 			this.addChild(btn2);
 			btn2.x = (_w - btn2.width) / 2; btn2.y = btn1.y + 50;
 			btn2.label = "Стоп";
+			btn2.addEventListener(MouseEvent.CLICK, changeState);
  
 			this.addChild(btn3);
 			btn3.width = this.width / 3;
 			btn3.x = (_w - btn3.width) / 2; btn3.y = this.height - slider.height;
+			btn3.addEventListener(MouseEvent.CLICK, clearBoard);
 			
 			field.x = (_w - field.width) / 2;
 			field.y = btn2.y + 70;
@@ -105,8 +125,49 @@ package by.bsuir.user_interface
 			
 			_canvas.addChild(infoPanel);
 			_canvas.addChild(this);
+			
+			_instance = this;
 		}
 		
+		private function startStageProcesses(event:Event):void
+		{
+			this.breakState();
+			Physics.instance().createCorpuscules(field.getValue);
+		}
+		
+		public function setAtomsCount(count:Number):void
+		{
+			infoPanel.setNumberOfAtoms(count);
+		}
+		
+		public function changeState(event:Event):void
+		{
+			if (Physics.instance().changeCorpusculeState())
+			{
+				btn2.label = "Стоп";
+			}
+			else
+			{
+				btn2.label = "Продолжить";
+			}
+		}
+		
+		private function breakState():void
+		{
+			Physics.instance().removeCorpuscules();
+			Physics.instance().changeCorpusculeState(true);
+			btn2.label = "Стоп";
+		}
+		
+		public function clearBoard(event:Event):void
+		{
+			this.breakState();
+		}
+		
+		public function setNeitronsCount(count:Number):void
+		{
+			infoPanel.setNumberOfNeitrons(count);
+		}
 	}
 
 }

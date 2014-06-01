@@ -34,13 +34,6 @@ package by.bsuir.user_interface
 		{
 			return _h;
 		}
-		// Singleton for igor
-		private static var _instance:InfoPanel = null;
-		
-		public static function instance():InfoPanel 
-		{
-			return  _instance;
-		}
 		
 		public function InfoPanel(_canvas:DisplayObjectContainer, leftOffset:int) 
 		{
@@ -94,7 +87,6 @@ package by.bsuir.user_interface
 			this.addChild(_neitronsLabel);
 			
 			_canvas.addChild(this);
-			_instance = this;
 		}
 		
 		public function setNumberOfAtoms(count:int):void

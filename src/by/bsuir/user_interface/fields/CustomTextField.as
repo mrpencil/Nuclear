@@ -66,7 +66,7 @@ package by.bsuir.user_interface.fields
 		
 		public function textAdded(event:TextEvent):void 
 		{
-			if (textField.length < 6)
+			if (textField.length < 3)
 			{
 				preValue = textField.text;
 			}

@@ -35,20 +35,27 @@ package by.bsuir.animation
 		private var atomsArray:Array = [];
 		private var neitrinosArray:Array = [];
 		
+		private static var _instance:Physics = null;
+		
 		public function Physics(_canvas:DisplayObjectContainer)
 		{
 			this.canvas = new MovieClip();
-			canvas.x = ControlPanel.getLeftOffset();
-			canvas.y = InfoPanel.getTopOffset();
-			var renderer:BitmapData = new BitmapData(_canvas.width - canvas.x, _canvas.height - canvas.y, false, 0x000000);
+			var borderOffset:Number = 5;
+			canvas.x = ControlPanel.getLeftOffset() + borderOffset;
+			canvas.y = InfoPanel.getTopOffset() + borderOffset;
+			var renderer:BitmapData = new BitmapData(_canvas.width - canvas.x -  borderOffset, _canvas.height - canvas.y -  borderOffset, false, 0x000000);
 			var bitMap:Bitmap = new Bitmap(renderer);
 			this.canvas.addChild(bitMap);
-			
-			
 		
 			_canvas.addChild(canvas);
 			UserInterface.createUserInterface(_canvas);
 			setBoundries(canvas);
+			_instance = this;
+		}
+		
+		public static function instance():Physics
+		{
+			return _instance;
 		}
 		
 		public function enable():void
@@ -64,13 +71,47 @@ package by.bsuir.animation
 			maxY = container.height;
 		}
 		
-		public function createCorpuscules():void
+		public function createCorpuscules(count:int = 10):void
 		{
-			for (var i:int = 0; i < PropertiesHelper.DEFAULT_NUMBER_OF_CORPUSCULES; i++)
+//			PropertiesHelper.DEFAULT_NUMBER_OF_CORPUSCULES
+			for (var i:int = 0; i < count; i++)
 			{
 				createAtom(AtomsCreator.U_235);
-				createNeitrino();
+				if (i % 2 == 0)
+				{
+					createNeitrino();
+				}
 			}
+		}
+		
+		public function changeCorpusculeState(isOnlyPositive:Boolean = false):Boolean
+		{
+			if (!canvas.hasEventListener(Event.ENTER_FRAME))
+			{
+				canvas.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+			}
+			else
+			{
+				if (!isOnlyPositive)
+				{
+					canvas.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+				}
+			}
+			return canvas.hasEventListener(Event.ENTER_FRAME);
+		}
+		
+		public function removeCorpuscules():void
+		{
+			for (var i:int = 0; i < atomsArray.length; i++ )
+			{
+				canvas.removeChild(atomsArray[i]);
+			}
+			for (var i:int = 0; i < neitrinosArray.length; i++)
+			{
+				canvas.removeChild(neitrinosArray[i]);
+			}
+			atomsArray = new Array();
+			neitrinosArray = new Array();
 		}
 		
 		public function createAtom(type:String):void
@@ -109,8 +150,8 @@ package by.bsuir.animation
 			checkCorpusculeCollisions(atomsArray, neitrinosArray, true);
 			checkCorpusculeCollisions(atomsArray, atomsArray, false);
 			checkCorpusculeCollisions(neitrinosArray, neitrinosArray, false);
-			InfoPanel.instance().setNumberOfAtoms(atomsArray.length);
-			InfoPanel.instance().setNumberOfNeitrons(neitrinosArray.length);
+			ControlPanel.instance().setAtomsCount(atomsArray.length);
+			ControlPanel.instance().setNeitronsCount(neitrinosArray.length);
 		}
 		
 		private function atomDestroyed(corpuscule:AnimateAtom):void
@@ -125,7 +166,7 @@ package by.bsuir.animation
 				}
 				
 				var neitrons:Array = result[NuclearProcesses.NEITRONS] as Array;
-				for (var i:int = 0; i < neitrons.length; i++)
+				for (var i:int = 0; i < (neitrons.length -1); i++)
 				{
 					createNeitrinoWithCoordinates(corpuscule.x + corpuscule.height * Math.pow(-1,i) * Math.random(), 
 												  corpuscule.y + corpuscule.height * Math.pow(-1,i) * Math.random());
